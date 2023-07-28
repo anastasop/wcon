@@ -1,0 +1,19 @@
+[
+    {
+	"Name": "Poweroff",
+	"Exec": "/sbin/poweroff"
+    },
+    {
+	"Name": "Radio105",
+	"Exec": "vlc -I dummy https://icy.unitedradio.it/Radio105.aac"
+    },
+    {
+	"Name": "Astro",
+	"Exec": "/usr/local/plan9/bin/astro -s | espeak"
+    },
+    {
+	"Name": "Slideshow",
+	"Exec": "feh -F -D 2 --on-last-slide resume",
+	"Dir": "/home/anastasop/photos"
+    }
+]

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="30">
+  <link href="/static/wcon.css" rel="stylesheet">
+  <script src="/static/wcon.js"></script>
+  <title>wcon</title>
+</head>
+
+<body>
+  
+<div class="programs">
+{{range .}}
+  <div class="program">
+    <span class="name">{{.Name}}</span>
+    <!-- media player unicode symbols are not supported by all browsers -->
+    {{if not .Running}}<button class="opbut start" data-prog="{{.Prog}}">&#x25B6;</button>{{end}}
+    {{if .Running}}<button class="opbut stop" data-pid="{{.Prog}}">&#x25A0;</button>{{end}}
+    {{if .Status}}
+    <span class="status">{{.Status}}</span>
+    {{end}}
+  </div>
+{{end}}
+</div>
+
+</body>
+
+</html>
