@@ -7,9 +7,10 @@ simple audio services etc. It uses a simple json configuration file:
 ```
 [
   {
-    "Name": "task display name",
-    "Exec": "bash -c this",
-    "Dir":  "working directory"
+    "Name":    "task display name",
+    "Exec":    "bash -c this",
+    "Dir":     "working directory",
+    "Timeout": "60m"
    },
    ...
 ]

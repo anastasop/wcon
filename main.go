@@ -18,9 +18,12 @@ import (
 )
 
 type Program struct {
-	Name string
-	Exec string
-	Dir  string
+	Name    string
+	Exec    string
+	Dir     string
+	Timeout string
+
+	Duration time.Duration `json:"-"`
 }
 
 type Control struct {
@@ -66,7 +69,8 @@ audio services etc. It uses a simple json configuration file:
   {
     "Name": "task display name",
     "Exec": "bash -c this",
-    "Dir":  "working directory"
+    "Dir":  "working directory",
+    "Timeout":  "60m"
    },
    ...
 ]
@@ -96,6 +100,16 @@ func main() {
 		log.Fatal(err)
 	}
 	fin.Close()
+
+	for i, prg := range programs {
+		if prg.Timeout != "" {
+			d, err := time.ParseDuration(prg.Timeout)
+			if err != nil {
+				log.Fatalf("%s parse timeout: %v", prg.Name, err)
+			}
+			programs[i].Duration = d
+		}
+	}
 
 	running = make([]*Control, len(programs))
 
@@ -146,6 +160,9 @@ func supervisor(p Program) *Control {
 
 	go func() {
 		ctx, cancel := context.WithCancel(context.Background())
+		if p.Duration > 0 {
+			ctx, cancel = context.WithTimeout(ctx, p.Duration)
+		}
 		defer cancel()
 
 		go func() {
